@@ -1,28 +1,24 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="primary">
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-list dense>
-        <v-list-tile @click="myFunc()">
+        <v-list-tile
+          v-for="item in items"
+          :key="item.route"
+          @click="navigate(item)"
+        >
           <v-list-tile-action>
-            <v-icon>home</v-icon>
+            <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile @click="myFunc()">
-          <v-list-tile-action>
-            <v-icon>contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Contact</v-list-tile-title>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Driver Tracking System</v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -37,30 +33,26 @@
 export default {
   data() {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
+      drawer: true,
       items: [
         {
-          icon: 'apps',
-          title: 'Welcome',
-          to: '/'
+          title: 'Add Driver',
+          icon: 'home',
+          route: '/add-driver'
         },
         {
-          icon: 'bubble_chart',
-          title: 'Inspire',
-          to: '/inspire'
+          title: 'Track Drivers',
+          icon: 'home',
+          route: 'track-drivers'
         }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+      ]
     };
   },
   methods: {
-    myFunc() {
-      console.log('clicked!');
+    navigate(item) {
+      this.$router.push({
+        path: item.route
+      });
     }
   }
 };
