@@ -1,11 +1,16 @@
 <template>
-  <v-app id="primary">
+  <v-app>
     <v-navigation-drawer v-model="drawer" fixed app>
-      <v-list dense>
+      <v-toolbar color="indigo" dark>
+        <v-toolbar-title>Welcome Admin</v-toolbar-title>
+      </v-toolbar>
+      <v-list>
         <v-list-tile
           v-for="item in items"
           :key="item.route"
-          @click="navigate(item)"
+          :to="item.route"
+          active-class="highlighted"
+          :class="item.path === $route.path ? 'highlighted' : ''"
         >
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -21,11 +26,7 @@
       <v-toolbar-title>Driver Tracking System</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-          <nuxt />
-        </v-layout>
-      </v-container>
+      <nuxt />
     </v-content>
   </v-app>
 </template>
@@ -33,7 +34,7 @@
 export default {
   data() {
     return {
-      drawer: true,
+      drawer: false,
       items: [
         {
           title: 'Add Driver',
@@ -48,6 +49,11 @@ export default {
       ]
     };
   },
+  mounted() {
+    setTimeout(() => {
+      this.drawer = true;
+    }, 500);
+  },
   methods: {
     navigate(item) {
       this.$router.push({
@@ -57,3 +63,8 @@ export default {
   }
 };
 </script>
+<style>
+.highlighted {
+  background: lightgrey;
+}
+</style>
