@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { db } from './../services/firebaseApp';
 export default {
   name: 'AddDriver',
   data: () => ({
@@ -59,8 +60,12 @@ export default {
   }),
   methods: {
     addDriver() {
-      console.log(this.newDriver);
-      this.$refs.form.reset();
+      const validated = this.$refs.form.validate();
+      if (!validated) return;
+      db.collection('drivers').add(this.newDriver).then(() => {
+        this.$store.commit('snackbar/setSnack', 'Driver added successfully!');
+        this.$refs.form.reset();
+      });
     },
     resetForm() {
       this.newDriver = {};
