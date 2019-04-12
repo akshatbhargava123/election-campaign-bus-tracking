@@ -15,6 +15,12 @@
           required
         ></v-text-field>
         <v-text-field
+          v-model="newDriver.busNumber"
+          :rules="[v => !!v || 'Enter the bus number of the alloted bus to the driver']"
+          label="Bus number alloted to the driver"
+          required
+        ></v-text-field>
+        <v-text-field
           v-model="newDriver.password"
           :rules="[v => !!v || 'Driver login password is required for driver to log into the app to start tracking']"
           label="Driver Login Password"
@@ -54,8 +60,9 @@ export default {
     valid: true,
     newDriver: {
       name: '',
-      email: '',
-      password: ''
+      phone: '',
+      password: '',
+      busNumber: '',
     }
   }),
   methods: {
@@ -64,7 +71,7 @@ export default {
       if (!validated) return;
       db.collection('drivers').add(this.newDriver).then(() => {
         this.$store.commit('snackbar/setSnack', 'Driver added successfully!');
-        this.$refs.form.reset();
+        // this.$refs.form.reset();
       });
     },
     resetForm() {
