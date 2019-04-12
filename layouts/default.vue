@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <Snackbar />
     <v-navigation-drawer v-model="drawer" fixed app>
       <v-toolbar color="indigo" dark>
         <v-toolbar-title>Welcome Admin</v-toolbar-title>
@@ -31,7 +32,9 @@
   </v-app>
 </template>
 <script>
+import Snackbar from '@/components/Snackbar.vue';
 export default {
+  components: { Snackbar },
   data() {
     return {
       drawer: false,
