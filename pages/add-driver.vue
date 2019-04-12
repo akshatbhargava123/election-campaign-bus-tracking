@@ -69,9 +69,9 @@ export default {
     addDriver() {
       const validated = this.$refs.form.validate();
       if (!validated) return;
-      db.collection('drivers').add(this.newDriver).then(() => {
+      db.collection('drivers').doc(this.newDriver.phone).set(this.newDriver).then(() => {
         this.$store.commit('snackbar/setSnack', 'Driver added successfully!');
-        // this.$refs.form.reset();
+        this.$refs.form.reset();
       });
     },
     resetForm() {
