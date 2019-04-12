@@ -1,6 +1,12 @@
 <template>
   <div>
-    <div id="map-container" :style="getStyle('map')"></div>
+    <div id="map-container" :style="getStyle('map')">
+      <GmapMap
+        :center="{ lat: 28.7041, lng: 77.1025 }"
+        :zoom="12"
+        style="width: 100%; height: 100%"
+      />
+    </div>
     <div id="table-container" :style="getStyle('table')">
       <v-btn absolute dark fab top right color="secondary" @click="changeMode()">
         <v-icon>swap_vert</v-icon>
@@ -33,10 +39,7 @@
               <th
                 v-for="header in props.headers"
                 :key="header.text"
-                :class="['column sortable']"
-                @click="changeSort(header.value)"
               >
-                <v-icon small>arrow_upward</v-icon>
                 {{ header.text }}
               </th>
             </tr>
@@ -66,12 +69,16 @@
             </tr>
           </template>
           <template v-slot:no-data>
-            <v-alert :value="true" color="error" icon="warning" v-if="!loading">
-              No drivers exists!
-            </v-alert>
-            <h4 v-else>
-              Loading...
-            </h4>
+            <v-layout justify-center>
+              <div v-if="!loading">
+                <v-icon>warning</v-icon>
+                No drivers exists!
+                <v-btn color="indigo" small dark @click="reroute">Add Now</v-btn>
+              </div>
+              <h4 v-else>
+                Loading...
+              </h4>
+            </v-layout>
           </template>
         </v-data-table>
       </v-container>
@@ -146,6 +153,11 @@ export default {
     },
     deleteSelected() {
       console.log(this.selected);
+    },
+    reroute() {
+      this.$router.push({
+        path: 'add-driver'
+      });
     }
   }
 };
@@ -158,7 +170,22 @@ export default {
 #table-container {
   transition: all 0.5s;
   height: 46vh;
-  background: lightgreen;
   overflow: scroll;
+  background: #E1F5FE;
+  border-top: 1px solid #01579B;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+}
+</style>
+
+<style>
+a[href^="http://maps.google.com/maps"]{display:none !important}
+a[href^="https://maps.google.com/maps"]{display:none !important}
+
+.gmnoprint a, .gmnoprint span, .gm-style-cc {
+    display:none;
+}
+.gmnoprint div {
+    background:none !important;
 }
 </style>

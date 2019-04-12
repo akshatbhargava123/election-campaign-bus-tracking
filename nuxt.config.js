@@ -42,7 +42,8 @@ module.exports = {
    */
   plugins: [
     '@/plugins/vuetify',
-    '@/plugins/firebaseInit.js'
+    '@/plugins/firebaseInit',
+    '@/plugins/googleMapsInit'
   ],
 
   /*
@@ -64,7 +65,10 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    transpile: ['vuetify/lib'],
+    transpile: [
+      'vuetify/lib',
+      /^vue2-google-maps($|\/)/,
+    ],
     plugins: [new VuetifyLoaderPlugin()],
     loaders: {
       stylus: {
@@ -85,5 +89,10 @@ module.exports = {
       //   })
       // }
     }
-  }
+  },
+
+  env: {
+    GOOGLE_MAPS_API_KEY: 'AIzaSyC2N2HBpC7u0cP13zBUVpgzvnKpChvA-Ck'
+  },
+
 }
