@@ -57,7 +57,7 @@
               </v-btn>
             </td>
             <td class="text-xs-center">
-              <v-btn flat icon color="deep-orange">
+              <v-btn flat icon color="deep-orange" @click="deleteDriver(props.item)">
                 <v-icon>delete</v-icon>
               </v-btn>
             </td>
@@ -100,6 +100,10 @@ export default {
     ]
   }),
   methods: {
+    toggleAll () {
+      if (this.selected.length) this.selected = []
+      else this.selected = this.drivers.slice();
+    },
     getStatus(lastActive) {
       const status = Vue.filter('status')(lastActive);
       return status;
@@ -110,8 +114,16 @@ export default {
     trackSelected() {
       this.$emit('trackSelected', this.selected);
     },
+    deleteDriver(driver) {
+      this.$emit('delete', driver.phone);
+    },
     deleteSelected() {
       this.$emit('deleteSelected', this.selected);
+    },
+    reroute() {
+      this.$router.push({
+        path: 'add-driver'
+      });
     }
   }
 }

@@ -37,6 +37,7 @@
         :loading="loading"
         @changeMode="changeMode"
         @trackSelected="trackSelected"
+        @delete="deleteDriver"
         @deleteSelected="deleteSelected"
       />
     </div>
@@ -75,10 +76,6 @@ export default {
     this.cancelSubscription();
   },
   methods: {
-    toggleAll () {
-      if (this.selected.length) this.selected = []
-      else this.selected = this.drivers.slice();
-    },
     trackSelected(selected) {
       this.activeSubs = [];
       selected.forEach(driver => {
@@ -89,6 +86,7 @@ export default {
       this.boundMarkers();
     },
     boundMarkers() {
+      const { mapRef } = this.$refs;
       const bounds = new google.maps.LatLngBounds();
       this.activeSubs.forEach(sub => {
         const pos = new google.maps.LatLng(
@@ -97,7 +95,7 @@ export default {
         );
         bounds.extend(pos);
       })
-      this.$refs.mapRef.fitBounds(bounds);
+      mapRef.fitBounds(bounds);
     },
     changeMode() {
       switch (this.mode) {
@@ -125,12 +123,16 @@ export default {
           } else return { height: '46vh' };
       }
     },
-    deleteSelected(selected) {
-      console.log(selected);
+    deleteDriver(phone) {
+      this.deleteSelected([{ phone }]);
     },
-    reroute() {
-      this.$router.push({
-        path: 'add-driver'
+    deleteSelected(selected) {
+      selected.forEach(driver => {
+        firebase
+          .firestore()
+          .collection('drivers')
+          .doc(driver.phone)
+          .delete();
       });
     }
   }
