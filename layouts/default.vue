@@ -41,12 +41,12 @@ export default {
       items: [
         {
           title: 'Add Driver',
-          icon: 'home',
+          icon: 'person_add',
           route: '/add-driver'
         },
         {
           title: 'Track Drivers',
-          icon: 'home',
+          icon: 'directions_bus',
           route: 'track-drivers'
         }
       ]
