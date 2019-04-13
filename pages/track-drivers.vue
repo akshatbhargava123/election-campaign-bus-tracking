@@ -8,8 +8,8 @@
         style="width: 100%; height: 100%"
       >
         <GmapMarker
-          v-for="(sub, index) in activeSubs"
-          :key="index"
+          v-for="sub in activeSubs"
+          :key="sub.driver.name"
           :position="{
             lat: sub.driver.lastLocation.latitude,
             lng: sub.driver.lastLocation.longitude
@@ -20,13 +20,11 @@
           @click="sub.showInfo = !sub.showInfo"
         >
           <GmapInfoWindow
-            v-for="sub in activeSubs"
-            :key="sub.driver.name"
             :opened="sub.showInfo"
           >
-            <h6>
-              {{ sub.driver.lastLocation.physicalAddress }}
-            </h6>
+            <p>{{ sub.driver.name }}: {{ sub.driver.busNumber }}</p>
+            <h4>{{ sub.driver.lastLocation.physicalAddress }}</h4>
+            <p>{{ sub.driver.lastActive | datetime }}</p>
           </GmapInfoWindow>
         </GmapMarker>
       </GmapMap>
@@ -69,6 +67,13 @@ export default {
       .onSnapshot(res => {
         this.loading = false;
         this.drivers = res.docs.map(r => r.data());
+
+        if (this.activeSubs.length) {
+          const selectedDrivers = this.drivers.filter(d => {
+            return this.activeSubs.findIndex(d2 => d2.driver.phone == d.phone) != -1;
+          });
+          this.trackSelected(selectedDrivers);
+        }
       });
   },
   beforeDestroy() {
@@ -82,9 +87,12 @@ export default {
           this.activeSubs.push({ driver });
         }
       });
+      console.log(this.activeSubs.length);
       this.boundMarkers();
     },
     boundMarkers() {
+      if (this.activeSubs.length == 0) return;
+
       const { mapRef } = this.$refs;
       const bounds = new google.maps.LatLngBounds();
       this.activeSubs.forEach(sub => {
