@@ -69,7 +69,6 @@ export default {
       .onSnapshot(res => {
         this.loading = false;
         this.drivers = res.docs.map(r => r.data());
-        console.log(this.drivers);
       });
   },
   beforeDestroy() {

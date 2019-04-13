@@ -70,7 +70,7 @@ export default {
       const validated = this.$refs.form.validate();
       if (!validated) return;
       db.collection('drivers').doc(this.newDriver.phone).set(this.newDriver).then(() => {
-        this.$store.commit('snackbar/setSnack', 'Driver added successfully!');
+        this.$store.commit('snackbar/setSnack');
         this.$refs.form.reset();
       });
     },

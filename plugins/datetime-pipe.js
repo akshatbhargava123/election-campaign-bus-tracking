@@ -1,7 +1,9 @@
 import Vue from 'vue';
 
 Vue.filter('datetime', (value) => {
-  return new Date(value).toLocaleDateString("hi-IN", {
+  const d = new Date(value);
+  if (d instanceof Date && isNaN(d)) return '-';
+  return d.toLocaleDateString("hi-IN", {
     minute: 'numeric',
     hour: 'numeric',
     weekday: 'long',
