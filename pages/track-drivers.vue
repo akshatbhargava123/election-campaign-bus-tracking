@@ -4,13 +4,38 @@
       <GmapMap
         :center="{ lat: 28.7041, lng: 77.1025 }"
         :zoom="12"
+        ref="mapRef"
         style="width: 100%; height: 100%"
-      />
+      >
+        <GmapMarker
+          v-for="(sub, index) in activeSubs"
+          :key="index"
+          :position="{
+            lat: sub.driver.lastLocation.latitude,
+            lng: sub.driver.lastLocation.longitude
+          }"
+          :icon="{
+            url: '/images/bus-icon.png'
+          }"
+          @click="sub.showInfo = !sub.showInfo"
+        >
+          <GmapInfoWindow
+            v-for="sub in activeSubs"
+            :key="sub.driver.name"
+            :opened="sub.showInfo"
+          >
+            <h6>
+              {{ sub.driver.lastLocation.physicalAddress }}
+            </h6>
+          </GmapInfoWindow>
+        </GmapMarker>
+      </GmapMap>
     </div>
     <div id="table-container" :style="getStyle('table')">
       <drivers-table
         :drivers="drivers"
         :loading="loading"
+        @changeMode="changeMode"
         @trackSelected="trackSelected"
         @deleteSelected="deleteSelected"
       />
@@ -20,6 +45,7 @@
 
 <script>
 import firebase from 'firebase';
+import { gmapApi } from 'vue2-google-maps';
 import DriversTable from '@/components/DriversTable';
 export default {
   name: 'TrackDrivers',
@@ -28,9 +54,13 @@ export default {
     drivers: [],
     selected: [],
     loading: true,
+    activeSubs: [], // active subscriptions
     mode: 'auto',
     cancelSubscription: null
   }),
+  computed: {
+    google: gmapApi
+  },
   mounted() {
     this.cancelSubscription = firebase
       .firestore()
@@ -50,7 +80,24 @@ export default {
       else this.selected = this.drivers.slice();
     },
     trackSelected(selected) {
-      console.log(selected);
+      this.activeSubs = [];
+      selected.forEach(driver => {
+        if (driver.lastLocation) {
+          this.activeSubs.push({ driver });
+        }
+      });
+      this.boundMarkers();
+    },
+    boundMarkers() {
+      const bounds = new google.maps.LatLngBounds();
+      this.activeSubs.forEach(sub => {
+        const pos = new google.maps.LatLng(
+          sub.driver.lastLocation.latitude,
+          sub.driver.lastLocation.longitude
+        );
+        bounds.extend(pos);
+      })
+      this.$refs.mapRef.fitBounds(bounds);
     },
     changeMode() {
       switch (this.mode) {
