@@ -43,7 +43,9 @@ module.exports = {
   plugins: [
     '@/plugins/vuetify',
     '@/plugins/firebaseInit',
-    '@/plugins/googleMapsInit'
+    '@/plugins/googleMapsInit',
+    '@/plugins/datetime-pipe',
+    '@/plugins/status-pipe',
   ],
 
   /*

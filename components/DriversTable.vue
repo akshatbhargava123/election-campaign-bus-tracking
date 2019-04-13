@@ -47,10 +47,10 @@
             </td>
             <td class="text-xs-center">{{ props.item.name }}</td>
             <td class="text-xs-center">{{ props.item.phone }}</td>
-            <td class="text-xs-center">{{ props.item.lastActive }}</td>
+            <td class="text-xs-center">{{ props.item.lastActive | datetime }}</td>
             <td class="text-xs-center">
-              <v-btn depressed round dark :color="props.item.status == 'active' ? 'success' : 'deep-orange'">
-                {{ props.item.status == 'active' ? 'ACTIVE' : 'INACTIVE' }}
+              <v-btn depressed round dark :color="getStatus(props.item.lastActive) == 'active' ? 'success' : 'deep-orange'">
+                {{ props.item.lastActive | status }}
               </v-btn>
             </td>
             <td class="text-xs-center">
@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
   name: 'DriversTable',
   props: {
@@ -95,6 +96,11 @@ export default {
     ]
   }),
   methods: {
+    getStatus(lastActive) {
+      const status = Vue.filter('status')(lastActive);
+      console.log(status);
+      return status;
+    },
     changeMode() {
       this.$emit('changeMode');
     },

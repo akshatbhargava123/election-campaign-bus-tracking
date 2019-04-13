@@ -7,5 +7,3 @@ Vue.use(VueGoogleMaps, {
     libraries: 'places',
   },
 });
-
-console.log('registered map');
