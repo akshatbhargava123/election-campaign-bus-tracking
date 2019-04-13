@@ -47,6 +47,9 @@
             </td>
             <td class="text-xs-center">{{ props.item.name }}</td>
             <td class="text-xs-center">{{ props.item.phone }}</td>
+            <td class="text-xs-center">
+              {{ (props.item.lastLocation && props.item.lastLocation.physicalAddress) || '-' }}
+            </td>
             <td class="text-xs-center">{{ props.item.lastActive | datetime }}</td>
             <td class="text-xs-center">
               <v-btn depressed round dark :color="getStatus(props.item.lastActive) == 'active' ? 'success' : 'deep-orange'">
@@ -90,6 +93,7 @@ export default {
     headers: [
       { text: 'Name', align: 'center', value: 'name', sortable: false },
       { text: 'Phone', align: 'center', value: 'phone', sortable: false },
+      { text: 'Last Location', align: 'center', value: 'position.physicalAddress', sortable: false },
       { text: 'Last Active', align: 'center', value: 'lastActive', sortable: false },
       { text: 'Status', align: 'center', value: 'status', sortable: false },
       { text: 'Actions', align: 'center', value: 'name', sortable: false },
@@ -98,7 +102,6 @@ export default {
   methods: {
     getStatus(lastActive) {
       const status = Vue.filter('status')(lastActive);
-      console.log(status);
       return status;
     },
     changeMode() {
