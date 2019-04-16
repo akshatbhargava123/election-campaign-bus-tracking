@@ -48,6 +48,10 @@ module.exports = {
     '@/plugins/status-pipe',
   ],
 
+  middlewares: [
+    '@/middlewares/auth'
+  ],
+
   /*
    ** Nuxt.js modules
    */
