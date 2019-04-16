@@ -1,9 +1,22 @@
 export const state = () => ({
-  snack: ''
+  snack: '',
+  errorSnack: false
 });
 
 export const mutations = {
   setSnack (state, snack) {
-    state.snack = 'Driver added successfully!';
+    state.snack = '';
+  },
+  showError(state, message) {
+    state.snack = message;
+    state.errorSnack = true;
+  },
+  showSnack(state, message) {
+    state.errorSnack = false;
+    state.snack = message;
+  },
+  reset(state) {
+    state.errorSnack = true;
+    state.snack = '';
   }
 };
