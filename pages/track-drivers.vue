@@ -68,6 +68,7 @@ import DriversTable from '@/components/DriversTable';
 export default {
   name: 'TrackDrivers',
   layout: 'sidemenu',
+  middleware: 'auth',
   components: { DriversTable },
   data: () => ({
     drivers: [],

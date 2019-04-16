@@ -57,6 +57,7 @@ import { db } from './../services/firebaseApp';
 export default {
   name: 'AddDriver',
   layout: 'sidemenu',
+  middleware: 'auth',
   data: () => ({
     valid: true,
     newDriver: {
@@ -71,7 +72,7 @@ export default {
       const validated = this.$refs.form.validate();
       if (!validated) return;
       db.collection('drivers').doc(this.newDriver.phone).set(this.newDriver).then(() => {
-        this.$store.commit('snackbar/setSnack');
+        // this.$store.commit('snackbar/setSnack');
         this.$refs.form.reset();
       });
     },

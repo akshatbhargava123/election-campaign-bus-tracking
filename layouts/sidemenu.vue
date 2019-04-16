@@ -20,6 +20,15 @@
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-spacer></v-spacer>
+        <v-list-tile @click.native="logout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Logout</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
@@ -62,6 +71,12 @@ export default {
       this.$router.push({
         path: item.route
       });
+    },
+    logout() {
+      this.$store.dispatch('auth/logout')
+        .then(() => {
+          this.$router.replace('/login');
+        });
     }
   }
 };
