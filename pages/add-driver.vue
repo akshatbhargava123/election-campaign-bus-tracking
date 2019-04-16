@@ -56,6 +56,7 @@
 import { db } from './../services/firebaseApp';
 export default {
   name: 'AddDriver',
+  layout: 'sidemenu',
   data: () => ({
     valid: true,
     newDriver: {
