@@ -92,6 +92,7 @@ export default {
     this.cancelSubscription = firebase
       .firestore()
       .collection('drivers')
+      .where('admin', '==', this.$store.state.auth.user)
       .onSnapshot(res => {
         this.loading = false;
         this.drivers = res.docs.map(r => r.data());

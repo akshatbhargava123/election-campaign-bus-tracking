@@ -71,10 +71,14 @@ export default {
     addDriver() {
       const validated = this.$refs.form.validate();
       if (!validated) return;
-      db.collection('drivers').doc(this.newDriver.phone).set(this.newDriver).then(() => {
-        // this.$store.commit('snackbar/setSnack');
-        this.$refs.form.reset();
-      });
+      db
+        .collection('drivers')
+        .doc(this.newDriver.phone)
+        .set({ ...this.newDriver, admin: this.$store.state.auth.user })
+        .then(() => {
+          // this.$store.commit('snackbar/setSnack');
+          this.$refs.form.reset();
+        });
     },
     resetForm() {
       this.newDriver = {};
