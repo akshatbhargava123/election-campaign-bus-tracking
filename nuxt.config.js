@@ -98,7 +98,7 @@ module.exports = {
   },
 
   env: {
-    GOOGLE_MAPS_API_KEY: 'AIzaSyC2N2HBpC7u0cP13zBUVpgzvnKpChvA-Ck'
+    GOOGLE_MAPS_API_KEY: 'AIzaSyCuryEkeyzTmGh6DTKlIVvhkI3ccDB_Xu8'
   },
 
 }
