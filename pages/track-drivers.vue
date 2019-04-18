@@ -120,8 +120,8 @@ export default {
       this.boundMarkers();
     },
     updateMarkers(updatedDrivers) {
-      const frames = [];
       this.activeSubs.forEach((sub, i) => {
+        const frames = [];
         sub.driver.lastLocation = updatedDrivers[i].lastLocation;
         sub.driver.lastActive = updatedDrivers[i].lastActive;
 
