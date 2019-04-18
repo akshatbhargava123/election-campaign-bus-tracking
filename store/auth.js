@@ -1,15 +1,12 @@
 import firebase from 'firebase';
 
 export const state = () => ({
-  user: process.browser ? window.localStorage.getItem('userid') : null,
+  user: null,
 });
 
 export const mutations = {
   setUser(state, user) {
     state.user = user;
-    if (process.browser && state.user) {
-      window.localStorage.setItem('userid', user);
-    }
   }
 };
 
@@ -27,7 +24,6 @@ export const actions = {
   },
   logout({ commit }) {
     commit('setUser', null);
-    localStorage.clear();
     return firebase.auth().signOut();
   }
 }
