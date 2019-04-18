@@ -1,7 +1,5 @@
-import firebase from 'firebase';
-
-export default function({ redirect }) {
-  if (!Boolean(firebase.auth().currentUser)) {
+export default function({ redirect, store }) {
+  if (!store.state.auth.user) {
     redirect('/login');
   }
-}
+};
