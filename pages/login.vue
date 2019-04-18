@@ -43,6 +43,13 @@ export default {
       password: '',
     },
   }),
+  created() {
+    if (this.$store.state.auth.user) {
+      this.$router.replace({
+        path: '/'
+      });
+    }
+  },
   methods: {
     login() {
       this.$store.dispatch('auth/login', this.user).then(uid => {
