@@ -17,7 +17,10 @@ export default {
           this.show = true;
           this.message = msg;
           this.errorSnack = errorSnack;
-          this.$store.commit('snackbar/reset');
+          setTimeout(() => {
+            this.show = false;
+            this.$store.commit('snackbar/reset');
+          }, 1500);
         }
       }
     );

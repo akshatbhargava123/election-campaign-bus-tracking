@@ -76,7 +76,7 @@ export default {
         .doc(this.newDriver.phone)
         .set({ ...this.newDriver, admin: this.$store.state.auth.user })
         .then(() => {
-          // this.$store.commit('snackbar/setSnack');
+          this.$store.commit('snackbar/showSnack', 'Driver added successfully!');
           this.$refs.form.reset();
         });
     },

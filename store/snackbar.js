@@ -4,9 +4,6 @@ export const state = () => ({
 });
 
 export const mutations = {
-  setSnack (state, snack) {
-    state.snack = '';
-  },
   showError(state, message) {
     state.snack = message;
     state.errorSnack = true;
