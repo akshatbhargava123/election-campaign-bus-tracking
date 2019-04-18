@@ -48,6 +48,12 @@
             <td class="text-xs-center">{{ props.item.name }}</td>
             <td class="text-xs-center">{{ props.item.phone }}</td>
             <td class="text-xs-center">
+              <span v-if="props.item.source">
+                <b>{{ props.item.source }}</b> to <b>{{ props.item.destination }}</b>
+              </span>
+              <span v-else>-</span>
+            </td>
+            <td class="text-xs-center">
               {{ (props.item.lastLocation && props.item.lastLocation.physicalAddress) || '-' }}
             </td>
             <td class="text-xs-center">{{ props.item.lastActive | datetime }}</td>
@@ -93,6 +99,7 @@ export default {
     headers: [
       { text: 'Name', align: 'center', value: 'name', sortable: false },
       { text: 'Phone', align: 'center', value: 'phone', sortable: false },
+      { text: 'Route', align: 'center', value: 'name', sortable: false },
       { text: 'Last Location', align: 'center', value: 'position.physicalAddress', sortable: false },
       { text: 'Last Active', align: 'center', value: 'lastActive', sortable: false },
       { text: 'Status', align: 'center', value: 'status', sortable: false },

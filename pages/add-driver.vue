@@ -26,6 +26,18 @@
           label="Driver Login Password"
           required
         ></v-text-field>
+        <v-text-field
+          v-model="newDriver.source"
+          :rules="[v => !!v || 'Starting Location of the driver']"
+          label="Starting Location of the driver"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="newDriver.destination"
+          :rules="[v => !!v || 'Destination Location of the driver']"
+          label="Destination Location of the driver"
+          required
+        ></v-text-field>
 
         <v-btn
           align-center
@@ -65,6 +77,8 @@ export default {
       phone: '',
       password: '',
       busNumber: '',
+      source: '',
+      destination: '',
     }
   }),
   methods: {
